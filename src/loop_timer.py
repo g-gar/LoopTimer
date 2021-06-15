@@ -6,9 +6,9 @@ class LoopTimer:
 	@staticmethod
 	def run(fn, end, start = 0, step = 1, batch_size = 1, precision = 8, template = template):
 		timer, timer_total = time.process_time(), time.process_time()
-		for i in range(start, end, step):
+		for i in range(start, end+1, step):
 			value = fn(i)
-			if i > 0 & i % batch_size == 0:
+			if i % batch_size == 0:
 				timer_end = time.process_time()
 				parameters = LoopTimer.get_template_formattings_map(i, start, end, step, batch_size, timer, timer_total, timer_end, value)
 				print(template.format_map(parameters))
