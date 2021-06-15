@@ -4,7 +4,7 @@ class LoopTimer:
 	template = 'iteration = {current_iteration} \t took {batch_elapsed_time:.8f}s \t total = {total_elapsed_time:.8f}s \t value = {iteration_returned_value}'
 
 	@staticmethod
-	def run(fn, start, end, step = 1, batch_size = 1, precision = 8, template = template):
+	def run(fn, end, start = 0, step = 1, batch_size = 1, precision = 8, template = template):
 		timer, timer_total = time.process_time(), time.process_time()
 		for i in range(start, end, step):
 			value = fn(i)
