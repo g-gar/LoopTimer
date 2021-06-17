@@ -1,5 +1,5 @@
 # LoopTimer
-Helper for benchmarking loops
+Helper for benchmarking loops in python
 
 ## External dependencies
 None
