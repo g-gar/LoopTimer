@@ -4,58 +4,31 @@ Creating loops is where a lot of time is spent in every project. Testing, checki
 
 This project aims to remove that burden from our day to day by shipping full featured loops based on those most common patterns, just by writing a single line.
 
-Moreover, every step on the loop generates enough information to create full featured benchmark reports.
-
-A few examples (outputs are shown at the end of the document):
-
-* `LoopTimer.run(lambda x: 2**x, 45)`
-
-* `LoopTimer.run(lambda x: 2**x, 50, batch_size = 10)`
-
-Disclaimer: `LoopTimer` interface will probably change substantially in prior versions
-
-## External dependencies
-
-None
-
-## Features
-
-| Loop type        | Phase | Stops  | Restarts | Pauses | Resumes | Jumps |
-|:----------------:|:-----:|:------:|:--------:|:------:|:-------:|:-----:|
-| Iteration        | 2     | almost | 2        | almost | 2       | 0     |
-| Recursion        | 0     | 0      | 0        | 0      | 0       | 0     |
-| Tail Recursion   | 0     | 0      | 0        | 0      | 0       | 0     |
-| Divide & Conquer | 0     | 0      | 0        | 0      | 0       | 0     |
-| Memoization      | 1     | 0      | 0        | 0      | 0       | 0     |
-
-### Feature Phases
-
-| Id  | Name                 | Descriptor                                                                                            |
-|:---:|:--------------------:|:-----------------------------------------------------------------------------------------------------:|
-| 0   | feature introduction | Feature has been introduced and it's in phase of approval                                             |
-| 1   | prototyping          | Feature is being designed in order to fit with project's codebase (might introduce important changes) |
-| 2   | testing              | Feature codebase is almost finished and it's in testing process to diminish future bugs               |
-| 3   | launch               | Feature is part of the codebase and ready to use                                                      |
-
 ## Examples
+Attempts to create a loop from `i=0` to `i=200` (exclusive) with a condition of `i < 20` and logging generated parameters for each iteration with a custom template:
+```python
+template = 'current iteration: index={index}'
+Loop() \
+  .index_generator(IterativeGenerator(0, 200, 2, lambda x: x < 20)) \
+  .add_processor(LoggingProcessor()) \
+  .run()
+```
 
-* `LoopTimer.run(lambda x: 2**x, 45, batch_size = 10)`
-  
-  ```
-  iteration = 0    took 0.00000000s        total = 0.00000000s     value = 1
-  iteration = 10   took 0.00000000s        total = 0.00000000s     value = 1024
-  iteration = 20   took 0.00000000s        total = 0.00000000s     value = 1048576
-  iteration = 30   took 0.00000000s        total = 0.00000000s     value = 1073741824
-  iteration = 40   took 0.00000000s        total = 0.00000000s     value = 1099511627776
-  ```
+Same as before but `0 < i < 5`:
+```python
+template = 'current iteration: index={index}'
+	loop = Loop() \
+		.index_generator(IterativeGenerator(0, 200, 2, lambda idx: idx < 20)) \
+		.add_processor(LoggingProcessor(template)) \
+		.run() \
+		.index_generator(IterativeGenerator(0, 5, 1)) \
+		.run()
+```
 
-* `LoopTimer.run(lambda x: 2**x, 50, batch_size = 10)`
-  
-  ```
-  iteration = 0    took 0.00000000s        total = 0.00000000s     value = 1
-  iteration = 10   took 0.00000000s        total = 0.00000000s     value = 1024
-  iteration = 20   took 0.00000000s        total = 0.00000000s     value = 1048576
-  iteration = 30   took 0.00000000s        total = 0.00000000s     value = 1073741824
-  iteration = 40   took 0.00000000s        total = 0.00000000s     value = 1099511627776
-  iteration = 50   took 0.00000000s        total = 0.00000000s     value = 1125899906842624
-  ```
+## Next steps
+- [ ] Execute processors taking its priority in account
+- [ ] Bubble up processors generated values for other processors usage
+- [ ] Introduce __execution flows__ (sync vs async, for example), that would be injected in `Loop.run()` or via its builder interface
+- [x] Reset a Loop instance index generator function for reusability purposes
+- [ ] Conditions in generators as `*args` for simplicity
+- [ ] Add processors for function executions (chainable or multithreaded) as a `Loop.run()`'s `*arg` or via `**kwargs` (key could be the priority as well) argument
