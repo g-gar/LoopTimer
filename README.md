@@ -14,15 +14,15 @@ Loop() \
   .run()
 ```
 
-Same as before but `0 < i < 5`:
+Same as before but `0 < i < 5, i+1` after executing `0 < i < 20, i+2`:
 ```python
 template = 'current iteration: index={index}'
-	loop = Loop() \
-		.index_generator(IterativeGenerator(0, 200, 2, lambda idx: idx < 20)) \
-		.add_processor(LoggingProcessor(template)) \
-		.run() \
-		.index_generator(IterativeGenerator(0, 5, 1)) \
-		.run()
+loop = Loop() \
+  .index_generator(IterativeGenerator(0, 200, 2, lambda idx: idx < 20)) \
+  .add_processor(LoggingProcessor(template)) \
+  .run() \
+  .index_generator(IterativeGenerator(0, 5, 1)) \
+  .run()
 ```
 
 ## Next steps
