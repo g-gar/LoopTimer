@@ -1,3 +1,7 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 import string
 
 # FROM https://stackoverflow.com/a/20250018/13758294
@@ -9,7 +13,7 @@ class PartialFormatter(string.Formatter):
         try:
             val = super().get_field(field_name, args, kwargs)
         except (KeyError, AttributeError):
-            val = None, field_name 
+            val = None, field_name
         return val
 
     def format_field(self, value, format_spec):
@@ -21,5 +25,5 @@ class PartialFormatter(string.Formatter):
         except ValueError:
             if self.bad_fmt is not None:
                 return self.bad_fmt
-            else: raise
+            raise
             
