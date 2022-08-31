@@ -1,3 +1,5 @@
+# pylint: disable=useless-super-delegation
+
 from collections.abc import Generator
 
 class IterativeGenerator(Generator):
@@ -22,7 +24,7 @@ class IterativeGenerator(Generator):
         raise StopIteration
 
     def throw(self, typ, val=None, tb=None):
-        super().throw(type, val, tb)
+        return super().throw(typ, val, tb)
 
     def reset(self):
         '''Sets current index to it\'s starting value

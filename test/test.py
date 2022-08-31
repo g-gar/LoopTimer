@@ -4,22 +4,28 @@
 
 from test.util import PartialFormatter
 
-from src.definitions import Loop, IterativeGenerator, Processor
+from src.definitions import Loop
+from src.generators import IterativeGenerator
+from src.processors import Processor
 
 class LoggingProcessor(Processor):
     def __init__(self, template):
         self.template = template
 
-    @classmethod
-    def run(cls, **kwargs):
+    def run(self, **kwargs):
         if 'index' in kwargs:
-            print(PartialFormatter().format(cls.template, **kwargs))
+            print(PartialFormatter().format(self.template, **kwargs))
 
 if __name__ == '__main__':
     TEMPLATE = 'current iteration: index={index}'
+
+    generator1 = IterativeGenerator(0, 200, 2, lambda idx: idx < 20)
+    generator2 = IterativeGenerator(0, 5, 1)
     loop = Loop() \
-        .index_generator(IterativeGenerator(0, 200, 2, lambda idx: idx < 20)) \
+        .index_generator(generator1) \
         .add_processor(LoggingProcessor(TEMPLATE)) \
-        .run() \
-        .index_generator(IterativeGenerator(0, 5, 1)) \
+
+    loop.run()
+
+    loop.index_generator(generator2) \
         .run()

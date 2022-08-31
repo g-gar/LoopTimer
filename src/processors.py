@@ -8,9 +8,8 @@ class Processor(metaclass=ABCMeta):
         '''Defines the processor function before starting the executing of the first iteration
         '''
 
-    @classmethod
     @abstractmethod
-    def run(cls, **kwargs):
+    def run(self, **kwargs):
         '''Defines the processor function to run on each iteration
         '''
 
