@@ -13,7 +13,7 @@ class PartialFormatter(string.Formatter):
         try:
             val = super().get_field(field_name, args, kwargs)
         except (KeyError, AttributeError):
-            val = None, field_name 
+            val = None, field_name
         return val
 
     def format_field(self, value, format_spec):
