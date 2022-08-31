@@ -1,3 +1,7 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 from test.util import PartialFormatter
 
 from src.definitions import Loop, IterativeGenerator, Processor
@@ -6,9 +10,10 @@ class LoggingProcessor(Processor):
     def __init__(self, template):
         self.template = template
 
-    def run(self, **kwargs):
+    @classmethod
+    def run(cls, **kwargs):
         if 'index' in kwargs:
-            print(PartialFormatter().format(self.template, **kwargs))
+            print(PartialFormatter().format(cls.template, **kwargs))
 
 if __name__ == '__main__':
     TEMPLATE = 'current iteration: index={index}'
