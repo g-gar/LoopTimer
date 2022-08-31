@@ -2,7 +2,7 @@
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
 
-from test.util import PartialFormatter
+from src.util import PartialFormatter
 
 from src.definitions import Loop
 from src.generators import IterativeGenerator
