@@ -1,4 +1,5 @@
 [MAIN]
 disable=
     C0114,
+    R0903,
     

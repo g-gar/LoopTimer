@@ -2,6 +2,7 @@
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
 
+from src.execution_flows import SynchronousExecutionFlow
 from src.util import PartialFormatter
 
 from src.definitions import Loop
@@ -21,11 +22,13 @@ if __name__ == '__main__':
 
     generator1 = IterativeGenerator(0, 200, 2, lambda idx: idx < 20)
     generator2 = IterativeGenerator(0, 5, 1)
+    execution_flow = SynchronousExecutionFlow()
+
     loop = Loop() \
         .index_generator(generator1) \
         .add_processor(LoggingProcessor(TEMPLATE)) \
 
-    loop.run()
+    loop.run(execution_flow)
 
     loop.index_generator(generator2) \
-        .run()
+        .run(execution_flow)
